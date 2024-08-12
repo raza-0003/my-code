@@ -10,7 +10,7 @@ public:
             int row=mid/n;
             int col=mid%n;
             if(matrix[row][col]==target) return true;
-            else if(matrix[row][col]<target) low=mid+1;
+            if(matrix[row][col]<target) low=mid+1;
             else{
                 high=mid-1;
             }
