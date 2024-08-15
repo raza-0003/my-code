@@ -18,7 +18,7 @@ public:
         int low = 0;
         int high = n-1;
         while(low<=high){
-            int mid = (low + high)/2;
+            int mid = (low) + (high-low)/2;
             int maxColIndex=findMaxindex(mat,m,mid);
             int up=mid-1>=0?mat[mid-1][maxColIndex]:-1;
             int down=mid+1<n?mat[mid+1][maxColIndex]:-1;
