@@ -12,7 +12,7 @@ public:
 
     void deleteNode(ListNode* node) {  
         node->val = node->next->val;
-        ListNode* nodeKeAagewala = node->next;
+        ListNode *nodeKeAagewala = node->next;
         node->next=nodeKeAagewala->next;
         delete (nodeKeAagewala);
 
