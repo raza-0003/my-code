@@ -22,7 +22,7 @@ public:
         int cnt2=0;
         while(temp!=nullptr){
             cnt2++;
-            if(cnt2==cnt1/2+1){
+            if(cnt2==cnt1/2+1){     //middle is (n/2)+1 whatever its odd or even 
                 return temp;
             }
             temp=temp->next;
