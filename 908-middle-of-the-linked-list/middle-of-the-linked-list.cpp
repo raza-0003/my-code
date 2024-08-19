@@ -12,24 +12,26 @@ class Solution {
 public:
     ListNode* middleNode(ListNode* head) {
         ListNode* temp = head;
+        //initially find no of element in the LL
         int cnt1=0;
-        while(temp->next!=nullptr){
+        while(temp!=nullptr){
             cnt1++;
             temp=temp->next;
         }
         temp = head;
         int cnt2=0;
-        while(temp->next!=nullptr){
+        while(temp!=nullptr){
             cnt2++;
             if(cnt1%2==1){
                 //odd vala case
                 if(cnt2==cnt1/2+1){
-                    return temp->next;
+                    return temp;
 
                 }
                 
             }
             else{
+                //by default even wala case hai 
                 if(cnt2==cnt1/2){
                     return temp->next;
                 }
