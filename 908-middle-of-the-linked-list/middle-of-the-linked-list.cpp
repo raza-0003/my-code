@@ -11,24 +11,12 @@
 class Solution {
 public:
     ListNode* middleNode(ListNode* head) {
-        ListNode* temp = head;
-        //initially find no of element in the LL
-        int cnt1=0;
-        while(temp!=nullptr){
-            cnt1++;
-            temp=temp->next;
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while(fast!=nullptr && fast->next!=nullptr){
+            fast=fast->next->next;
+            slow=slow->next;
         }
-        temp = head;
-        int cnt2=0;
-        while(temp!=nullptr){
-            cnt2++;
-            if(cnt2==cnt1/2+1){     //middle is (n/2)+1 whatever its odd or even 
-                return temp;
-            }
-            temp=temp->next;
-
-        }
-        return temp;
-        
+        return slow;
     }
 };
