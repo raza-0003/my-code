@@ -24,7 +24,6 @@ public:
         while(temp){
             if(temp->val!=st.top()){
                 return false;
-                break;
             }
             st.pop();
             temp=temp->next;
