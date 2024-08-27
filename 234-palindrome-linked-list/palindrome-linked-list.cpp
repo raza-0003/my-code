@@ -12,7 +12,9 @@ class Solution {
 public:
     bool isPalindrome(ListNode* head) {
         //checking if head is null or contain only single element
-        
+        if(head==nullptr || head->next==nullptr){
+            return true;
+        }
         stack<int> st;
         ListNode* temp=head;
         // putting Nodes into the stack
