@@ -11,17 +11,18 @@
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        if(head==nullptr || head->next==nullptr){
-            return true;
-        }
+        //checking if head is null or contain only single element
+        
         stack<int> st;
         ListNode* temp=head;
+        // putting Nodes into the stack
         while(temp){
             st.push(temp->val);
             temp=temp->next;
         }
         temp=head;
         while(temp){
+            //checking if stack element is not equal to LL
             if(temp->val!=st.top()){
                 return false;
             }
