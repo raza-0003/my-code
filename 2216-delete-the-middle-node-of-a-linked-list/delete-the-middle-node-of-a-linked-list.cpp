@@ -21,17 +21,18 @@ public:
             temp=temp->next;
 
         }
+        int middle_index = (cnt+1)/2;
         temp=head;
-        int res = (cnt + 1)/2;
         while(temp!=nullptr){
             cnt--;
-            if(cnt==res){
+            if(cnt == middle_index ){
                 break;
             }
             temp=temp->next;
         }
         ListNode* delNode=temp->next;
-        temp->next=delNode->next;
+        temp->next=temp->next->next;
+        delete delNode;
         
         return head;
     }
