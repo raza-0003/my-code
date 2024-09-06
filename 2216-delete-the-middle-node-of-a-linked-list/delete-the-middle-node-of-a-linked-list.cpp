@@ -32,7 +32,6 @@ public:
         }
         ListNode* delNode=temp->next;
         temp->next=delNode->next;
-        delete delNode;
         return head;
     }
 };
