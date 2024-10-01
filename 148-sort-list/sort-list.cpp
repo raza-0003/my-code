@@ -8,57 +8,73 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+ 							// \U0001f609\U0001f609\U0001f609\U0001f609Please upvote if it helps \U0001f609\U0001f609\U0001f609\U0001f609
 class Solution {
 public:
-    void merge(vector<int>&arr,int low,int mid,int high){
-        vector<int> temp;
-        int left=low; // starting index of left half of arr
-        int right = mid+1; // starting index of right half of arr
-        while(left<=mid && right<=high){
-            if(arr[left]<=arr[right]){
-                temp.push_back(arr[left]);
-                left++;
-            }
-            else{
-                temp.push_back(arr[right]);
-                right++;
-            }
-        }
-        while(left<=mid){
-            temp.push_back(arr[left]);
-            left++;
-        }
-        while(right<=high){
-            temp.push_back(arr[right]);
-            right++;
-        }
-        for(int i=low;i<=high;i++){
-            arr[i]=temp[i-low];
-        }
-    }
-    void mergeSort(vector<int> &arr,int low,int high){
-        if(low>=high) return;
-        int mid = (low + high)/2;
-        mergeSort(arr,low,mid); // left half
-        mergeSort(arr,mid+1,high);
-        merge(arr,low,mid,high);
-    }
     ListNode* sortList(ListNode* head) {
-        ListNode* temp = head;
-        vector<int> arr;
-        while(temp!=nullptr){
-            arr.push_back(temp->val);
-            temp=temp->next;
+        //If List Contain a Single or 0 Node
+        if(head == NULL || head ->next == NULL)
+            return head;
+        
+        
+        ListNode *temp = NULL;
+        ListNode *slow = head;
+        ListNode *fast = head;
+        
+        // 2 pointer appraoach / turtle-hare Algorithm (Finding the middle element)
+        while(fast !=  NULL && fast -> next != NULL)
+        {
+            temp = slow;
+            slow = slow->next;          //slow increment by 1
+            fast = fast ->next ->next;  //fast incremented by 2
+            
+        }   
+        temp -> next = NULL;            //end of first left half
+        
+        ListNode* l1 = sortList(head);    //left half recursive call
+        ListNode* l2 = sortList(slow);    //right half recursive call
+        
+        return mergelist(l1, l2);         //mergelist Function call
+            
+    }
+    
+    //MergeSort Function O(n*logn)
+    ListNode* mergelist(ListNode *l1, ListNode *l2)
+    {
+        ListNode *ptr = new ListNode(0);
+        ListNode *curr = ptr;
+        
+        while(l1 != NULL && l2 != NULL)
+        {
+            if(l1->val <= l2->val)
+            {
+                curr -> next = l1;
+                l1 = l1 -> next;
+            }
+            else
+            {
+                curr -> next = l2;
+                l2 = l2 -> next;
+            }
+        
+        curr = curr ->next;
+        
         }
-        int len = arr.size();
-        mergeSort(arr,0,len-1);
-        temp = head;
-        int i=0;
-        while(temp!=nullptr){
-            temp->val = arr[i];
-            i=i+1;
-            temp=temp->next;
+        
+        //for unqual length linked list
+        
+        if(l1 != NULL)
+        {
+            curr -> next = l1;
+            l1 = l1->next;
         }
-        return head;    
+        
+        if(l2 != NULL)
+        {
+            curr -> next = l2;
+            l2 = l2 ->next;
+        }
+        
+        return ptr->next;
     }
 };
