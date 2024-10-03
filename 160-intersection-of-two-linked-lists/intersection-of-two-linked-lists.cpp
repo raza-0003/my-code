@@ -9,22 +9,21 @@
  class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        if (headA == nullptr || headB == nullptr) return nullptr;
-
-        ListNode* temp1 = headA;
-        ListNode* temp2 = headB;
-
-        // Traverse both lists
-        while (temp1 != temp2) {
-            // If temp1 reaches the end, switch to headB
-            temp1 = (temp1 == nullptr) ? headB : temp1->next;
-
-            // If temp2 reaches the end, switch to headA
-            temp2 = (temp2 == nullptr) ? headA : temp2->next;
+        map<ListNode*,int>mpp;
+        ListNode* temp = headA;
+        while(temp!=nullptr){
+            mpp[temp]=1;
+            temp=temp->next;
         }
-
-        // Either both will be nullptr (no intersection) or they'll meet at the intersection
-        return temp1;
+        temp=headB;
+        while(temp!=nullptr){
+            if(mpp.find(temp)!=mpp.end()){
+                return temp;
+            }
+            temp=temp->next;
+        }
+        return nullptr;
+        
     }
 };
 
