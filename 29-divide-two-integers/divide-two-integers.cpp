@@ -7,8 +7,8 @@ public:
         bool sign = true;
         if(dividend>=0 && divisor<0) sign = false;
         if(dividend<=0 && divisor>0) sign = false;
-        
-        long res = 0;
+
+        int res = 0;
         // check condition if no is negative or divisor is negative
         while(n>=d){
             int cnt = 0;
