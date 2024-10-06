@@ -12,7 +12,8 @@ public:
         // check condition if no is negative or divisor is negative
         while(n>=d){
             int cnt = 0;
-            while(d << (cnt+1) <= n){
+            while(d << (cnt+1) <= n){ // iwrite cnt+1 not cnt because in above while loop condition is already checked
+            
                 cnt++;
             }
             res+= 1<<(cnt);
