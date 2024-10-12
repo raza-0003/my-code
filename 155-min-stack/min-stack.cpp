@@ -1,12 +1,11 @@
-#include<bits/stdc++.h>  // Include libraries
-using namespace std;     // Use standard namespace
+#include<bits/stdc++.h>  
+using namespace std;     
 
 class MinStack {
 public:
-    stack<pair<int,int>> st; // Member variable for the stack
+    stack<pair<int,int>> st; 
 
     MinStack() {
-        // Constructor body (empty in this case)
     }
     
     void push(int val) {
@@ -14,20 +13,20 @@ public:
             st.push({val, val});
         }
         else {
-            st.push({val, min(val, st.top().second)}); // Push with updated minimum
+            st.push({val, min(val, st.top().second)}); 
         }
     }
     
     void pop() {
-        st.pop();  // Pop the top element from the stack
+        st.pop();  
     }
     
     int top() {
-        return st.top().first;  // Access the value of the top element
+        return st.top().first;  
     }
     
     int getMin() {
-        return st.top().second; // Access the minimum value stored in the top element
+        return st.top().second; 
     }
 };
 
