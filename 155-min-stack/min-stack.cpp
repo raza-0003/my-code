@@ -1,44 +1,51 @@
-#include<bits/stdc++.h>
-using namespace std;
 class MinStack {
 public:
-    stack<pair<int,int>>st;
-    MinStack(){ 
-        
+    stack<long long>st;
+    long long mini = LLONG_MAX;
+    MinStack() {
     }
     
     void push(int val) {
+        long long x = val;
         if(st.empty()){
-            st.push({val,val});
+            mini = x;
+            st.push(x);
         }
         else{
-            st.push({val,min(val,st.top().second)});
+            if(x>=mini){
+                st.push(x);
+            }
+            else{
+                st.push(2LL * x - mini);
+                mini = x;
+            }
+
         }
         
     }
     
     void pop() {
+        if(st.empty()) return;
+        long long x = st.top();
         st.pop();
+        if(x<mini){ //that means it is modified min so we need to get previous min
+            mini = 2*mini-x;
+            }  
     }
     
     int top() {
-        return st.top().first;
+         if(st.empty()) return -1;
+         long long x = st.top();
+         if(x<mini) return mini;
+         return x;
+        
     }
     
     int getMin() {
-        return st.top().second;
+        if(st.empty()) return -1;
+        return mini;
     }
 };
-
-
-/**
- * Your MinStack object will be instantiated and called as such:
- * MinStack* obj = new MinStack();
- * obj->push(val);
- * obj->pop();
- * int param_3 = obj->top();
- * int param_4 = obj->getMin();
- */
 
 /**
  * Your MinStack object will be instantiated and called as such:
