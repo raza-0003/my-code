@@ -21,6 +21,7 @@ public:
                     break;
                 }
             }
+            //in case there is no element is found then
             if(!found) ans.push_back(-1);
 
         }
