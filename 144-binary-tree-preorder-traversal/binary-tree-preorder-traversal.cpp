@@ -11,16 +11,28 @@
  */
 class Solution {
 public:
-    void preorderhelp(TreeNode* root,vector<int>&ans){
-        if(root==nullptr) return ;
-        ans.push_back(root->val);
-        preorderhelp(root->left,ans);
-        preorderhelp(root->right,ans);
-    }
     vector<int> preorderTraversal(TreeNode* root) {
         vector<int>ans;
-        preorderhelp(root,ans);
-        return ans;
-    }
+        if(root == nullptr){
+            return ans;
+        }
+        stack<TreeNode*>st;
+        st.push(root);
+        while(!st.empty()){
+            root = st.top();
+            st.pop();
+            //preorder root left right
+            ans.push_back(root->val);
+            // pahle right isliye stack work on lifo pahle left chahiye toh firstly right put karna padega
+            if(root->right!=nullptr){
+                st.push(root->right);
+            }
+            if(root->left!=nullptr){
+                st.push(root->left);
+            }
 
+        }
+        return ans;
+        
+    }
 };
