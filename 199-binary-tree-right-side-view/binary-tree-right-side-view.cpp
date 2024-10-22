@@ -12,9 +12,11 @@
 class Solution {
 public:
     void recursion_right(TreeNode* root,int level,vector<int>&ans){
+        //it is traversal like root right left;
         if(root==nullptr) return;
         if(level == ans.size()){
-            ans.push_back(root->val);
+            // above conditio ensure that only one element(right side->view) will store into ans 
+            ans.push_back(root->val); 
         }
         recursion_right(root->right,level+1,ans);
         recursion_right(root->left,level+1,ans);
