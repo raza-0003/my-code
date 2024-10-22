@@ -15,6 +15,8 @@ public:
         if(p==nullptr || q==nullptr){
             return p==q;
         }
+        //symmetry only occur when leftsubtrree(node->left) = rightsubtree(node->right) && 
+        // leftsubtrree(node->right) = rightsubtree(node->left)
         return (p->val==q->val && checksym(p->left,q->right) && checksym(p->right,q->left));  
     }
     bool isSymmetric(TreeNode* root) {
