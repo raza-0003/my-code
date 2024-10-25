@@ -1,37 +1,30 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
+#include <limits.h>
+
 class Solution {
 public:
-    void inorder(TreeNode* root,vector<int>&arr){
-        if(root==nullptr){
-            return;
-        }
-        inorder(root->left,arr);
-        arr.push_back(root->val);
-        inorder(root->right,arr);
-    }
     bool isValidBST(TreeNode* root) {
-        vector<int>arr;
-        if(root==nullptr){
+         TreeNode* prev = nullptr;
+        return isValidBSTHelper(root, prev);
+    }
+    
+private:
+    bool isValidBSTHelper(TreeNode* node, TreeNode* &prev) {
+        if (node == nullptr) {
+            return true;
+        }
+
+        // Check left subtree
+        if (!isValidBSTHelper(node->left, prev)) {
             return false;
         }
-        inorder(root,arr);
-        for(int i=1;i<arr.size();i++){
-            if(arr[i]<=arr[i-1]){
-                return false;
 
-            }
+        // Check current node
+        if (prev != nullptr && node->val <= prev->val) {
+            return false;
         }
-        return true;
-        
+        prev = node;
+
+        // Check right subtree
+        return isValidBSTHelper(node->right, prev);
     }
 };
