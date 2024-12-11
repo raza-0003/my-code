@@ -14,6 +14,7 @@ public:
             }
         }
         queue<int>q;
+        //checking in the indeg list whose indeg is equea; to 0 i.e terminal noed
         for(int i=0;i<n;i++){
             if(indeg[i]==0){
                 q.push(i);
