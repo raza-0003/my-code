@@ -1,17 +1,20 @@
 class Solution {
 public:
     int rob(vector<int>& nums) {
+        //lets cover edges cases
         int n = nums.size();
-        int prev = nums[0];
-        int prev2 = 0;
-        for(int i=1;i<n;i++){
-            int take = nums[i];
-            if(i>1) take += prev2;
-            int notTake = 0 + prev;
-            int curi = max(take,notTake);
-            prev2 = prev;
-            prev = curi;
+        if(n==0) return 0;
+        if(n==1) return nums[0];
+        int oddsum = 0;
+        int evensum = 0;
+        for(int i=0;i<n;i++){
+            if(i%2 == 0){
+                evensum = max(oddsum,evensum+nums[i]);
+            }
+            else{
+                oddsum = max(evensum,nums[i]+oddsum);
+            }
         }
-        return prev;
+        return  max(oddsum,evensum);
     }
 };
