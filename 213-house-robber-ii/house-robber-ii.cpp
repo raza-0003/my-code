@@ -1,33 +1,29 @@
 class Solution {
 public:
-    int maxNonAdjSum(vector<int>&nums){
+    int linRob(vector<int>& nums,int start,int end) {
+        //lets cover edges cases
         int n = nums.size();
-        int prev1 = nums[0];
-        int prev2 = 0;
-        for(int i=1;i<n;i++){
-            int Take = nums[i];
-            if(i>1) Take += prev2;
-            int notTake = 0 + prev1;
-            int curi = max(Take,notTake);
-            prev2 = prev1;
-            prev1 = curi;
+        if(n==0) return 0;
+        if(n==1) return nums[0];
+        int oddsum = 0;
+        int evensum = 0;
+        for(int i=start;i<=end;i++){
+            if(i%2 == 0){
+                evensum = max(oddsum,evensum+nums[i]); // taking even or skip it
+            }
+            else{
+                oddsum = max(evensum,nums[i]+oddsum);  // taking odd or skip it
+            }
         }
-        return prev1;
+        return  max(oddsum,evensum);
     }
     int rob(vector<int>& nums) {
         vector<int>temp1,temp2;
         int n = nums.size();
+        if(n==0) return 0;
         if(n == 1) return nums[0];
-        for(int i=0;i<n;i++){
-            if(i!=0){
-                temp1.push_back(nums[i]);
-            }
-            if(i!=n-1){
-                temp2.push_back(nums[i]);
-
-            }
-        }
-        return max(maxNonAdjSum(temp1),maxNonAdjSum(temp2));
+        // exclude first or exclude last element
+        return max(linRob(nums,1,n-1),linRob(nums,0,n-2));
         
     }
 };
