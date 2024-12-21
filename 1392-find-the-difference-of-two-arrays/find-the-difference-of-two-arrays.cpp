@@ -7,13 +7,13 @@ public:
         unordered_set<int>st1(nums1.begin(),nums1.end());
         unordered_set<int>st2(nums2.begin(),nums2.end());
         for(auto it:st1){
-            if(st2.find(it) == st2.end()){  // element is not found
+            if(!st2.count(it)){  // element is not found
                 // it means it is unique which is present in nums1, not in nums2
                 ans[0].push_back(it);
             }
         }
         for(auto it:st2){
-            if(st1.find(it) == st1.end()){
+            if(!st1.count(it)){
                 ans[1].push_back(it);
             }
         }
