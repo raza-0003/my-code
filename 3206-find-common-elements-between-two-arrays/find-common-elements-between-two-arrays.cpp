@@ -9,12 +9,12 @@ public:
         for(int num : nums2) mpp2[num] = 1;
         
         // Count all occurrences
-        for(int num : nums1) {
-            if(mpp2.count(num)) ans[0]++;
+        for(auto it:nums1) {
+            if(mpp2.count(it)) ans[0]++;
         }
         
-        for(int num : nums2) {
-            if(mpp1.count(num)) ans[1]++;
+        for(auto it : nums2) {
+            if(mpp1.count(it)) ans[1]++;
         }
         
         return ans;
