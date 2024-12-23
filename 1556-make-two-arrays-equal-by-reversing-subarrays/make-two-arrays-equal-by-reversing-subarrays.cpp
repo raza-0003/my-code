@@ -1,17 +1,14 @@
 class Solution {
 public:
     bool canBeEqual(vector<int>& target, vector<int>& arr) {
-        map<int,int>mpp;
-        for(auto it:arr){
-            mpp[it]++;
+        map<int,int>mpp1,mpp2;
+        for(auto it: arr){
+            mpp1[it]++;
         }
         for(auto it:target){
-            if(mpp.count(it) == 0 || mpp[it] == 0){
-                return false;
-            } 
-            mpp[it]--;
+            mpp2[it]++;
         }
-        return true;
+       return mpp1==mpp2;
         
     }
 };
