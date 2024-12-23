@@ -5,14 +5,15 @@ public:
         int n2 = arr2.size();
         int cnt = 0;
         for(int i=0;i<n1;i++){
-            bool isvalid = true;
+            int flag = 1;
             for(int j=0;j<n2;j++){
                 if(abs(arr1[i]-arr2[j]) <= d){
-                    isvalid = false;
+                    flag = 0;
+                    break;
                 }
                 
             }
-            if(isvalid){
+            if(flag){
                 cnt++;
             }
         }
