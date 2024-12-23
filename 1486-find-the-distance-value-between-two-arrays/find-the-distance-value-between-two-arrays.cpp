@@ -10,12 +10,9 @@ public:
                 if(abs(arr1[i]-arr2[j]) <= d){
                     flag = 0;
                     break;
-                }
-                
+                }    
             }
-            if(flag){
-                cnt++;
-            }
+            if(flag) cnt++;
         }
         return cnt;
         
