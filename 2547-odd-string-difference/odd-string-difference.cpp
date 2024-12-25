@@ -1,29 +1,17 @@
 class Solution {
 public:
     string oddString(vector<string>& words) {
-        int m = words[0].size();
-        vector<vector<int>> diffs;
-        
-        // Calculate difference arrays for all words
-        for (string& word : words) {
-            vector<int> diff;
-            for (int i = 0; i < m - 1; i++) {
-                diff.push_back(word[i + 1] - word[i]);
+        map<vector<int>,vector<string>> mp;
+        for(auto c:words){
+            vector<int> temp;
+            for(int i=1;i<c.size();++i){
+                temp.push_back(c[i]-c[i-1]);
             }
-            diffs.push_back(diff);
+            mp[temp].push_back(c);
         }
-        
-        // Find the odd one out
-        if (diffs[0] != diffs[1]) {
-            return diffs[0] == diffs[2] ? words[1] : words[0];
+        for(auto [f,s]:mp){
+            if(s.size()==1)return s[0];
         }
-        
-        for (int i = 2; i < words.size(); i++) {
-            if (diffs[i] != diffs[0]) {
-                return words[i];
-            }
-        }
-        
-        return words[0];
+        return words[0];//this state will not come
     }
 };
