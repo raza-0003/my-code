@@ -20,6 +20,7 @@ public:
         return root;
     }
     TreeNode* sortedArrayToBST(vector<int>& nums) {
+        if(nums.size()==0) return nullptr;
         return buildBst(nums,0,nums.size()-1);
     }
 };
