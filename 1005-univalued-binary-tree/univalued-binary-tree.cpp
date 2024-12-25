@@ -11,17 +11,19 @@
  */
 class Solution {
 public:
-    bool inorder(TreeNode* root,int value){
-        if(root == nullptr) return true;    //since empty tree is univalued
-        return inorder(root->left, value) &&
-               root->val == value &&
-               inorder(root->right, value);
-    }
     bool isUnivalTree(TreeNode* root) {
-        if(root == nullptr) return true;
-        int value = root->val;
-        // we should try preorder traversal why we go to the depth
-        return inorder(root,value);
-        
+       // iteraive solution using the stack data structure
+       if(root == nullptr) return true;
+       int value = root->val;
+       stack<TreeNode*>st;
+       st.push(root);
+       while(!st.empty()){
+        TreeNode* node = st.top();
+        st.pop();
+        if(node->val != value) return false;
+        if(node->left) st.push(node->left);
+        if(node->right) st.push(node->right);
+       }
+       return true;
     }
 };
