@@ -1,13 +1,16 @@
 class Solution {
 public:
     vector<vector<int>> generate(int numRows) {
-        vector<vector<int>>pascals(numRows);
-        for(int i=0;i<numRows;i++){
-            pascals[i].resize(i+1,1);
-            for(int j=1;j<i;j++){
-                pascals[i][j] = pascals[i-1][j-1] + pascals[i-1][j];
+        vector<vector<int>>result;
+        vector<int>prev;
+        for(int row=0;row<numRows;row++){
+            vector<int>curr(row+1,1);
+            for(int col=1;col<row;col++){
+                curr[col] = prev[col-1] + prev[col];
             }
+            result.push_back(curr);
+            prev = curr;
         }
-        return pascals;
+        return result;
     }
 };
