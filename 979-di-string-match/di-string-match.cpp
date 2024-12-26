@@ -3,20 +3,19 @@ public:
     vector<int> diStringMatch(string s) {
         int n = s.size();
         vector<int>ans;
-        map<char,int>mpp;
-        mpp['I'] = 0;
-        mpp['D'] = n;
-        for(int i=0;i<n;i++){
-            if(s[i]=='I'){
-                ans.push_back(mpp['I']);
-                mpp['I']++;
+        int low = 0;
+        int high = n;
+        for(auto ch:s){
+            if(ch=='I'){
+                ans.push_back(low);
+                low++;
             }
             else{
-                ans.push_back(mpp['D']);
-                mpp['D']--;
+                ans.push_back(high);
+                high--;
             }
         }
-        ans.push_back(mpp['I']);
+        ans.push_back(low);
         return ans;
     }
 };
