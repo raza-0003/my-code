@@ -5,9 +5,7 @@ public:
         vector<int>ans(2*n);
         for(int i=0;i<n;i++){
             ans[i] = nums[i];
-        }
-        for(int i=n;i<2*n;i++){
-            ans[i] = ans[i-n];
+            ans[n+i] = nums[i];
         }
         return ans;
     }
