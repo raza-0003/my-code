@@ -7,7 +7,6 @@ public:
         if(i%2 == 0) evenSum += num[i] - '0';   
         else oddSum += num[i] - '0';
        }
-       if((evenSum - oddSum) == 0) return true;
-       return false;
+       return ((evenSum - oddSum) == 0);
     }
 };
