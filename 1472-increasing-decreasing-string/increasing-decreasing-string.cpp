@@ -1,30 +1,29 @@
 class Solution {
 public:
     string sortString(string s) {
-        map<char,int>mpp;
-        for(auto it:s){
-            mpp[it]++;
+        map<char, int> mpp;
+        // Count the frequency of each character in the string
+        for (char c : s) {
+            mpp[c]++;
         }
-        vector<char>st;
-        for(int i=0;i<s.size();i++){
-            for(char ch='a';ch<='z';ch++){
-            if(mpp[ch]!=0){
-                st.push_back(ch);
-                mpp[ch]--;
+
+        string result = "";
+        while (result.size() < s.size()) {
+            // Ascending order: add characters in increasing order
+            for (char ch = 'a'; ch <= 'z'; ++ch) {
+                if (mpp[ch] > 0) {
+                    result += ch;
+                    mpp[ch]--;
                 }
             }
-            for(char ch='z';ch>='a';ch--){
-                if(mpp[ch]!=0){
-                    st.push_back(ch);
+            // Descending order: add characters in decreasing order
+            for (char ch = 'z'; ch >= 'a'; --ch) {
+                if (mpp[ch] > 0) {
+                    result += ch;
                     mpp[ch]--;
                 }
             }
         }
-        string ans(st.size(),' ');
-        for(int i=0;i<st.size();i++){
-            ans[i] = st[i];
-        }
-        return ans;
-
+        return result;
     }
 };
