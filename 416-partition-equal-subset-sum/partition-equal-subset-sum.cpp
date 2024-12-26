@@ -7,20 +7,21 @@ public:
             arrSum += nums[i];
         }
         int k = arrSum/2;
-        vector<vector<bool>>dp(n+1,vector<bool>(k+1,0));
+        vector<bool>prev(k+1,0),curr(k+1,0);
         if(arrSum & 1) return false;
-        // lets try out the tabulation method
-        for(int i=0;i<n;i++) dp[i][0] = true;
+        // lets try out the tabulation method(also space optimisation use)
+        if(nums[0] <= k) prev[nums[0]] = true;
         for(int i=1;i<n;i++){
             for(int target =0;target<=k;target++){
-                bool notTake = dp[i-1][target];
+                bool notTake = prev[target];
                 bool Take = false;
                 if(target >= nums[i]){
-                    Take = dp[i-1][target-nums[i]];
+                    Take = prev[target-nums[i]];
                 }
-                dp[i][target] = Take || notTake;
+                curr[target] = Take || notTake;
             }
+            prev = curr;
         } 
-        return dp[n-1][k];
+        return prev[k];
     }
 };
