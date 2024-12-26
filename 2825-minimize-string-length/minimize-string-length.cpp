@@ -1,7 +1,10 @@
 class Solution {
 public:
     int minimizedStringLength(string s) {
-        unordered_set<char>st(s.begin(),s.end());
-        return st.size();
+        bitset<26>bitchar;
+        for(auto ch:s){
+            bitchar.set(ch-'a');
+        }
+        return bitchar.count();
     }
 };
