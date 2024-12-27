@@ -1,25 +1,36 @@
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
-        vector<vector<int>>ans;
         int n = nums.size();
+        vector<vector<int>>res;
         sort(nums.begin(),nums.end());
-        for(int i=0;i<n-2;i++){
-            if(i>0 && nums[i]==nums[i-1]) continue;
-            int target = -nums[i];
-            unordered_map<int,int>mpp;
-            for(int j=i+1;j<n;j++){
-                int complement = target - nums[j];
-                if(mpp.count(complement)){
-                    ans.push_back({nums[i],nums[j],complement});
-                    while(j+1< n && nums[j] == nums[j+1]){
-                        j++;
+        int left,right,target,sum;
+        if(nums[0] > 0) return {};
+        for(int i=0;i<n;i++){
+            if(nums[i]>0) break;
+            if(i>0 && nums[i]==nums[i-1]) continue; // skip the current iteration(duplicate)
+            // intialize the two pointer approach
+            left = i+1;
+            right = n-1;
+            target = 0-nums[i];
+            while(left<right){
+                sum = nums[left] + nums[right];
+                if(sum == target){
+                    res.push_back({nums[i],nums[left],nums[right]});
+                    left++;
+                    right--;
+                    while(left<right && nums[left] == nums[left-1]){
+                        left++;
                     }
+                    while(left < right && nums[right] == nums[right+1]){
+                        right--;
+                    } 
                 }
-                mpp[nums[j]] = j;
+                else if(sum < target) left++;
+                else right--;
             }
+            
         }
-        return ans;
-        
+        return res;
     }
 };
