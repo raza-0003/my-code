@@ -1,10 +1,12 @@
 class Solution {
 public:
-    int f(int index){
+    int f(int index,vector<int>&dp){
         if(index ==1 || index == 0) return index;
-        return f(index-1) + f(index-2);
+        if(dp[index]!=-1) return dp[index];
+        return dp[index] = f(index-1,dp) + f(index-2,dp);
     }
     int fib(int n) {
-        return f(n);
+        vector<int>dp(n+1,-1);
+        return f(n,dp);
     }
 };
