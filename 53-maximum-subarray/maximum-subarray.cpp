@@ -15,10 +15,16 @@ public:
         return dp[index] = maxEnding; // note this line is very important(returning maxEnding not globalMax)
     }
     int maxSubArray(vector<int>& nums) {
+        globalMax = nums[0];
         int n = nums.size();
         vector<int>dp(n,-1);
-        globalMax = nums[0];
-        f(nums.size()-1,nums,dp);
+        dp[0] = nums[0];
+        for(int i=1;i<n;i++){
+            int withprev = dp[i-1] + nums[i];
+            int alone = nums[i];
+            dp[i] = max(withprev,alone);
+            globalMax = max(globalMax,dp[i]);
+        }
         return globalMax;
         
     }
