@@ -4,25 +4,27 @@ public:
         int n = coins.size();
         sort(coins.begin(),coins.end());
         vector<vector<int>>dp(n,vector<int>(amount+1,0));
+        vector<int>prev(amount+1,0),curr(amount+1,0);
         //filling the first row dp 
         for(int i=0;i<=amount;i++){
             if(i%coins[0]==0){
-                dp[0][i]=i/coins[0];
+                prev[i]=i/coins[0];
             }
             else{
-                dp[0][i] = 1e9;
+                prev[i] = 1e9;
             }
         }
         for(int i=1;i<n;i++){
             for(int tar=0;tar<=amount;tar++){
-                int notTake = 0 + dp[i-1][tar];
+                int notTake = 0 + prev[tar];
                 int take = 1e9;
                 if(coins[i]<=tar){
-                    take = 1 + dp[i][tar-coins[i]];
+                    take = 1 + curr[tar-coins[i]];
                 }
-                dp[i][tar] = min(take,notTake);
+                curr[tar] = min(take,notTake);
             }
+            prev = curr;
         }
-        return (dp[n-1][amount] >= 1e8) ? -1:dp[n-1][amount];   
+        return (prev[amount] >= 1e8) ? -1:prev[amount];   
     }
 };
