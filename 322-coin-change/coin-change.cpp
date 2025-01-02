@@ -2,8 +2,6 @@ class Solution {
 public:
     int coinChange(vector<int>& coins, int amount) {
         int n = coins.size();
-        sort(coins.begin(),coins.end());
-        vector<vector<int>>dp(n,vector<int>(amount+1,0));
         vector<int>prev(amount+1,0),curr(amount+1,0);
         //filling the first row dp 
         for(int i=0;i<=amount;i++){
