@@ -1,24 +1,28 @@
 class Solution {
 public:
-    int f(int index,int target,vector<int>&coins,vector<vector<int>>&dp){
-        if(index == 0){
-            if(target%coins[0]== 0) return target/coins[0];
-            return 1e8;
-        }
-        if(dp[index][target]!=-1) return dp[index][target];
-        int notTake = 0 + f(index-1,target,coins,dp);
-        int take = 1e9;
-        if(coins[index]<=target){
-            take = 1 + f(index,target-coins[index],coins,dp);
-        }
-        return dp[index][target] = min(take,notTake);
-
-    }
     int coinChange(vector<int>& coins, int amount) {
         int n = coins.size();
         sort(coins.begin(),coins.end());
-        vector<vector<int>>dp(n,vector<int>(amount+1,-1));
-        int result = f(n-1,amount,coins,dp);
-        return (result >= 1e8) ? -1 : result;      
+        vector<vector<int>>dp(n,vector<int>(amount+1,0));
+        //filling the first row dp 
+        for(int i=0;i<=amount;i++){
+            if(i%coins[0]==0){
+                dp[0][i]=i/coins[0];
+            }
+            else{
+                dp[0][i] = 1e9;
+            }
+        }
+        for(int i=1;i<n;i++){
+            for(int tar=0;tar<=amount;tar++){
+                int notTake = 0 + dp[i-1][tar];
+                int take = 1e9;
+                if(coins[i]<=tar){
+                    take = 1 + dp[i][tar-coins[i]];
+                }
+                dp[i][tar] = min(take,notTake);
+            }
+        }
+        return (dp[n-1][amount] >= 1e8) ? -1:dp[n-1][amount];   
     }
 };
