@@ -3,14 +3,9 @@ public:
     int distinctAverages(vector<int>& nums) {
         sort(nums.begin(),nums.end());
         int n = nums.size();
-        int left = 0;
-        int right = n-1;
-        unordered_set<float>st;
-        while(left<=right){
-            float average = (nums[left] + nums[right])/2.0;
-            st.insert(average); 
-            left++;
-            right--;
+        unordered_set<double>st;
+        for(int i=0;i<n/2;i++){
+            st.insert((nums[i] + nums[n-i-1])/2.0);
         }
         return st.size(); 
     }
