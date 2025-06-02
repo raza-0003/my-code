@@ -11,7 +11,6 @@ public:
             else if(ch == ')'){
                 temp--;
             }
-            else continue;
         }
         return maxNestDepth;
         
