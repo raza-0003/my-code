@@ -2,25 +2,28 @@ class Solution {
 public:
     string clearStars(string s) {
         int n = s.size();
-        priority_queue<pair<char,int>,vector<pair<char,int>>,greater<pair<char,int>>>minh;
-        unordered_map<int,bool>mpp;
+        vector<stack<int>>cnt(26);
         for(int i=0;i<n;i++){
-            if(s[i] == '*'){
-                mpp[-minh.top().second] = true;
-                minh.pop();
+            if(s[i] != '*'){
+                cnt[s[i]-'a'].push(i);
             }
             else{
-                minh.push({s[i],-i});
+                //  it means it is a star
+                for(int j=0;j<26;j++){
+                    if(!cnt[j].empty()){
+                        s[cnt[j].top()] = '*';
+                        cnt[j].pop();
+                        break;
+                    }
+                }
             }
         }
-        string res;
+        string ans;
         for(int i=0;i<n;i++){
-            if(mpp.count(i) || s[i] == '*'){
-                continue;
+            if(s[i] != '*'){
+                ans.push_back(s[i]);
             }
-            res += s[i];
         }
-        return res;
-        
+        return ans;
     }
 };
