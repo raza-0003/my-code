@@ -2,9 +2,9 @@ class Solution {
 public:
     int longestOnes(vector<int>& nums, int k) {
         int n = nums.size();
-        int left = 0, right = 0;
+        int left = 0, right = 0;    // keeps two pointer left and right
         int maxLen = 0;
-        int zeros = 0;
+        int zeros = 0;              // to keep track of all zerso 
         while(right < n){
             if(nums[right] == 0){
                 zeros++;
@@ -20,7 +20,5 @@ public:
             right++;
         }
         return maxLen;
-    
-        
     }
 };
