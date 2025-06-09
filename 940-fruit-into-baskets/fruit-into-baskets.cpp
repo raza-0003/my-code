@@ -17,6 +17,7 @@ public:
                     mpp.erase(fruits[left]);
                 }
                 left++;
+                
             }
             right++;
 
