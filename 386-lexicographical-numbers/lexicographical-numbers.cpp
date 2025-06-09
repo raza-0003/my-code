@@ -1,18 +1,19 @@
 class Solution {
 public:
-    void dfs(int curr,int n, vector<int>&ans){
-        if(curr > n ) return;
-        ans.push_back(curr);
-        for(int i=0;i<=9;i++){
-            int next = curr * 10 + i;
-            if(next > n) return;
-            dfs(next,n,ans);
-        }
-    }
     vector<int> lexicalOrder(int n) {
+        int curr = 1;
         vector<int>ans;
-        for(int i=1;i<=9;i++){
-            dfs(i,n,ans);
+        for(int i=0;i<n;i++){
+            ans.push_back(curr);
+            if(curr  * 10 <= n){
+                curr = curr * 10;
+            }
+            else{
+                while(curr % 10 == 9 || curr + 1 > n){
+                    curr /= 10;
+                }
+                curr++;
+            }
         }
         return ans;
         
