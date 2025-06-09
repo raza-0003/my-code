@@ -11,18 +11,15 @@ public:
             if(mpp.size() <=2){
                 maxlen = max(maxlen,right-left+1);
             }
-            while(mpp.size() > 2){
+            if(mpp.size() > 2){
                 mpp[fruits[left]]--;
                 if(mpp[fruits[left]] == 0){
                     mpp.erase(fruits[left]);
                 }
-                left++;
-                
+                left++;   
             }
             right++;
-
         }
         return maxlen;
-        
     }
 };
