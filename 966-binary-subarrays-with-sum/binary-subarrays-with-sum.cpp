@@ -1,19 +1,26 @@
 class Solution {
 public:
-    int numSubarraysWithSum(vector<int>& nums, int goal) {
-        unordered_map<int,int>prefixCnt;
-        int n = nums.size();
-        prefixCnt[0] = 1;
-        int prefixSum = 0;
+    int sumOfSubLessOrEqual(vector<int>& nums, int goal){
+        if(goal < 0) return 0;
+        int left  = 0;
+        int right = 0;
+        int sum = 0;
         int cnt = 0;
-        for(int i=0;i<n;i++){
-            prefixSum += nums[i];
-            if(prefixCnt.find(prefixSum - goal) != prefixCnt.end()){
-                cnt += prefixCnt[prefixSum - goal];
+        int n = nums.size();
+        while(right < n){
+            sum += nums[right];
+            while(sum > goal){
+                sum -= nums[left];
+                left++;
             }
-            prefixCnt[prefixSum]++;
+            cnt += right - left + 1;
+            right++;
         }
         return cnt;
+    }
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        int ans = sumOfSubLessOrEqual(nums,goal) - sumOfSubLessOrEqual(nums,goal-1);
+        return ans;
         
     }
 };
