@@ -1,35 +1,28 @@
 class Solution {
 public:
-    int nextGreterInd(vector<int>& height,int ind){
-        int n = height.size();
-        int maxHeight = 0, maxInd = -1;
-        for (int i = ind + 1; i < n; i++) {
-            if (height[i] >= height[ind]) {
-                return i; // First taller or equal bar found
-            }
-            if (height[i] > maxHeight) { // Keep track of the tallest to the right
-                maxHeight = height[i];
-                maxInd = i;
-            }
-        }
-        return maxInd; 
-    }
     int trap(vector<int>& height) {
         int n = height.size();
+        if(n<=2) return 0;
+        vector<int>leftMax(n);
+        vector<int>rightMax(n);
+        leftMax[0] = height[0];
+        for(int i=1;i<n;i++){
+            leftMax[i] = max(leftMax[i-1],height[i]);
+        }
+        rightMax[n-1] = height[n-1];
+        for(int i=n-2;i>=0;i--){
+            rightMax[i] = max(rightMax[i+1],height[i]);
+        }
         int ans = 0;
-        int left = 0;
-        if(n <= 2) return 0;
-        while(left < n-1 ){
-            int maxInd = nextGreterInd(height,left);
-            if (maxInd == -1) break;
-            int minHeight = min(height[maxInd],height[left]);
-            for(int i = left + 1;i<maxInd;i++){
-                ans += max(0,minHeight - height[i]);
+        for(int i=0;i<n;i++){
+            int waterLevel = min(leftMax[i],rightMax[i]);
+            // trapped water = waterLevel - height[i]
+            if(waterLevel > height[i]){
+                ans += waterLevel - height[i];
             }
-            left = maxInd;
         }
         return ans;
-
+        
         
     }
 };
