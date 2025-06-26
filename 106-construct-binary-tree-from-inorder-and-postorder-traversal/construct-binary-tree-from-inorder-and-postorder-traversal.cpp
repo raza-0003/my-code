@@ -11,23 +11,22 @@
  */
 class Solution {
 public:
-    TreeNode* constructTree(vector<int>&inorder,vector<int>&postorder,unordered_map<int,int>&inorderIndexMap ,int &postIndex, int inStart,int inEnd){
-        if(inStart > inEnd) return nullptr;
-        int rootVal = postorder[postIndex--];
-        TreeNode* root = new TreeNode(rootVal);
-        int rootIndex = inorderIndexMap[rootVal];
-        root->right = constructTree(inorder,postorder,inorderIndexMap,postIndex,rootIndex+1,inEnd);
-        root->left = constructTree(inorder,postorder,inorderIndexMap,postIndex,inStart,rootIndex-1);
+    TreeNode* builTreedPostIn(vector<int>& inorder,int inS,int inE, vector<int>& postorder,int poS,int poE,map<int,int>&mpp){
+        if(inS > inE || poS > poE) return nullptr;
+        TreeNode* root = new TreeNode(postorder[poE]);
+        int inRoot = mpp[postorder[poE]];   // it store index
+        int numLeft = inRoot - inS;    // number left (ending index - starting index)
+        root->left = builTreedPostIn(inorder,inS,inRoot-1,postorder,poS,poS+numLeft-1,mpp);
+        root->right = builTreedPostIn(inorder,inRoot+1,inE,postorder,poS+numLeft,poE-1,mpp);
         return root;
 
     }
     TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        int n = postorder.size();
-        unordered_map<int,int>inorderIndexMap;
+        int n = inorder.size();
+        map<int,int>mpp;
         for(int i=0;i<n;i++){
-            inorderIndexMap[inorder[i]] = i;
+            mpp[inorder[i]] = i;
         }
-        int postIndex = n-1;
-        return constructTree(inorder,postorder,inorderIndexMap,postIndex,0,n-1);
+        return builTreedPostIn(inorder,0,n-1,postorder,0,n-1,mpp);
     }
 };
