@@ -11,28 +11,24 @@ public:
         if(s1.size() <= 1){
             return false;
         }
-        string temp;
-        temp.append(s1);
-        temp.push_back(' ');
-        temp.append(s2);
+        string temp = s1 + "$" + s2;
         if(mpp.find(temp) != mpp.end()){
             return mpp[temp];
         }
-        bool flag = false;
-        for(int k=1;k<s1.size();k++){
-            if((solve(s1.substr(0,k), s2.substr(s2.size()-k,k)) && solve(s1.substr(k,s1.size()-k),s2.substr(0,s2.size()-k))) ||
-                (solve(s1.substr(0,k), s2.substr(0,k)) && solve(s1.substr(k,s1.size()-k),s2.substr(k,s2.size()-k)))
-            ){
-                flag = true;
-                break;
-            }
+        int n = s1.size();
+        for(int k=1;k<n;k++){
+            // is swap is done
+            if(solve(s1.substr(0,k), s2.substr(n-k,k)) &&
+                solve(s1.substr(k,n-k),s2.substr(0,n-k)))
+                return mpp[temp] = true;
+            // if swap is not done
+            if(solve(s1.substr(0,k), s2.substr(0,k)) &&
+                solve(s1.substr(k,n-k),s2.substr(k,n-k)))
+                return mpp[temp] = true;
         }
-        return mpp[temp] = flag;
-        
+        return mpp[temp] = false;
     }
     bool isScramble(string s1, string s2) {
         return solve(s1,s2);
-
-        
     }
 };
