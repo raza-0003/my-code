@@ -19,7 +19,7 @@ public:
         int right = solve(root->right,res);
         // induction
         int temp = 1 + max(left,right);
-        int ans = left+right;
+        int ans = max(temp,1+left+right);
         res = max(ans,res);
         return temp;
 
@@ -27,7 +27,7 @@ public:
     int diameterOfBinaryTree(TreeNode* root) {
         int res = 0;
         solve(root,res);
-        return res;
+        return res-1;
         
     }
 };
