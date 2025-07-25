@@ -11,18 +11,23 @@
  */
 class Solution {
 public:
-    int findheight(TreeNode* root,int &dia){
-        if(root==nullptr){
-            return 0;
-        }
-        int lh = findheight(root->left,dia);
-        int rh = findheight(root->right,dia);
-        dia = max(dia,lh+rh);
-        return 1+max(lh,rh);
+    int solve(TreeNode* root,int &res){
+        // base condition
+        if(root == nullptr) return 0;
+        // hypothesis
+        int left = solve(root->left,res);
+        int right = solve(root->right,res);
+        // induction
+        int temp = 1 + max(left,right);
+        int ans = left+right;
+        res = max(ans,res);
+        return temp;
+
     }
     int diameterOfBinaryTree(TreeNode* root) {
-        int dia = 0;
-        findheight(root,dia);
-        return dia;
+        int res = 0;
+        solve(root,res);
+        return res;
+        
     }
 };
