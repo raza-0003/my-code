@@ -1,38 +1,45 @@
 class Solution {
 public:
+    bool dfs(int node,vector<vector<int>>&adj,vector<bool>&visited,vector<bool>&inrec,stack<int>&st){
+        visited[node] = true;
+        inrec[node] = true;
+        for(auto it:adj[node]){
+            if(!visited[it]){
+                if(dfs(it,adj,visited,inrec,st)){
+                    return true;
+                }
+            }
+            else if(inrec[it] == true){
+                return true;
+            }
+        }
+        st.push(node);
+        inrec[node] = false;
+        return false;    
+    }
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
-         vector<int>adj[numCourses];
+        vector<vector<int>>adj(numCourses);
         for(auto it:prerequisites){
-            adj[it[1]].push_back(it[0]);
+            int u = it[0];
+            int v = it[1];
+            adj[v].push_back(u);
         }
-        vector<int>indeg(numCourses,0);
+        vector<bool>inrec(numCourses,0);
+        vector<bool>visited(numCourses,0);
+        stack<int>st;
         for(int i=0;i<numCourses;i++){
-            for(auto it:adj[i]){
-                indeg[it]++;
-            }
-        }
-        queue<int>q;
-        for(int i=0;i<numCourses;i++){
-            if(indeg[i]==0){
-                q.push(i);
-            }
-        }
-        vector<int>topo;
-        while(!q.empty()){
-            int node = q.front();
-            q.pop();
-            topo.push_back(node);
-            // remove all the connection of the node
-            for(auto it:adj[node]){
-                indeg[it]--;
-                if(indeg[it]==0){
-                    q.push(it);
+            if(!visited[i]){
+                if(dfs(i,adj,visited,inrec,st)){
+                    // it means there is cycle
+                    return {};
                 }
             }
         }
-        if(topo.size()==numCourses) return topo;
-        return {};
-        
-        
+        vector<int>result;
+        while(!st.empty()){
+            result.push_back(st.top());
+            st.pop();
+        }
+        return result;
     }
 };
