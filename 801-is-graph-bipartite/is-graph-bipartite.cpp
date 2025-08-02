@@ -1,14 +1,19 @@
 class Solution {
 public:
-    bool dfs(int node,int currcolor,vector<vector<int>>&adj,vector<int>&color){
+    bool bfs(int node,int currcolor,vector<vector<int>>&adj,vector<int>&color){
         color[node] = currcolor;
-        for(auto it:adj[node]){
-            if(color[it] == currcolor){
-                return false;
-            }
-            else if(color[it] == -1){
-                if(dfs(it,1-currcolor,adj,color) == false){
+        queue<int>q;
+        q.push(node);
+        while(!q.empty()){
+            int elem = q.front();
+            q.pop();
+            for(auto it:adj[elem]){
+                if(color[it] == color[elem]){
                     return false;
+                }
+                else if(color[it] == -1){
+                    color[it] = 1 - color[elem];
+                    q.push(it);
                 }
             }
         }
@@ -20,12 +25,11 @@ public:
         int cnt = 0;
         for(int i=0;i<n;i++){
             if(color[i] == -1){
-                if(dfs(i,1,graph,color) == false){
+                if(bfs(i,1,graph,color) == false){
                     return false;
                 }
             }
         }
-        
         return true;
     }
 };
