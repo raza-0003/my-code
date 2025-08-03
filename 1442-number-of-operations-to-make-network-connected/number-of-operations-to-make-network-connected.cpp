@@ -1,82 +1,46 @@
-#include<bits/stdc++.h>
-using namespace std;
-class DisjointSet{
-public:
-vector<int> size,parent,rank;
-  DisjointSet(int n){
-    rank.resize(n+1,0);
-    size.resize(n+1,0); // ensure that no problem for 0 as well as 1 based indexing
-    parent.resize(n+1,0);
-    for(int i=0;i<=n;i++){
-      parent[i] = i;
-      size[i] = 1;
-    }
-  }
-  int findUParnet(int node){
-    if(node == parent[node]){ // base condition for recursion
-      return node;
-    }
-    return parent[node] = findUParnet(parent[node]);
-
-  }
-  void unionByRank(int u,int v){
-    int ulp_u = findUParnet(u);
-    int ulp_v = findUParnet(v);
-    if(ulp_u == ulp_v) return ;
-    if(rank[ulp_u] < rank[ulp_v]){
-      parent[ulp_u] = ulp_v;
-      // no change in the rank bcoz smaller is attached to larger
-    }
-    else if(rank[ulp_v] < rank[ulp_u]){
-      parent[ulp_v] = ulp_u;
-    }
-    else{
-      parent[ulp_v] = ulp_u;
-      rank[ulp_u]++;
-
-    }
-  }
-  void unionBySize(int u,int v){
-    int ulp_u = findUParnet(u);
-    int ulp_v = findUParnet(v);
-    if(ulp_u == ulp_v) return;
-    if(rank[ulp_u] < rank[ulp_v]){
-      parent[ulp_u] = ulp_v;
-      size[ulp_v] += size[ulp_u];
-    }
-    else{
-      parent[ulp_v] = ulp_u;
-      size[ulp_u] += size[ulp_v];
-    }
-  }
-};
 class Solution {
 public:
+    int find(int i,vector<int>&parent){
+        if(i == parent[i]){
+            return i;
+        }
+        return parent[i] = find(parent[i],parent);
+    }
+    void Union(int x,int y,vector<int>&parent,vector<int>&rank){
+        int x_parent = find(x,parent);
+        int y_parent = find(y,parent);
+        if(x_parent == y_parent){
+            return;
+        }
+        if(rank[x_parent] > rank[y_parent]){
+            // x papa banega
+            parent[y_parent] = x_parent;
+        }
+        else if(rank[x_parent] < rank[y_parent]){
+            // y papa banega
+            parent[x_parent] = y_parent;
+        }
+        else if(rank[x_parent] == rank[y_parent]){
+            parent[x_parent] = y_parent;
+            rank[y_parent]++;
+        }
+    }
     int makeConnected(int n, vector<vector<int>>& connections) {
         if(connections.size() < n-1) return -1;
-        DisjointSet ds(n);
-        int extraEdge = 0;
-        for(auto it:connections){
-            int u = it[0];
-            int v = it[1];
-            if(ds.findUParnet(u) == ds.findUParnet(v)){
-                extraEdge++;
-            }
-            else{
-                ds.unionBySize(u,v);
-            }
-        }
-        int Ccom = 0;
+        int components = n;
+        vector<int>parent(n);
+        vector<int>rank(n,0);
         for(int i=0;i<n;i++){
-            if(ds.parent[i] == i){
-                Ccom++;
+            parent[i] = i;
+        }
+        for(auto edge:connections){
+            int x = edge[0];
+            int y = edge[1];
+            if(find(x,parent) != find(y,parent)){
+                components--;
+                Union(x,y,parent,rank);
             }
         }
-        int ans = Ccom -1 ;
-        if(extraEdge >= ans){
-            return ans;
-        }
-        return -1;
-        
+        return components - 1;
     }
 };
