@@ -26,11 +26,9 @@ public:
         // firstly evalute all the equality first
         for(auto word:equations){
             if(word[1] == '='){
-                int x_parent = find(word[0]-'a',parent);
-                int y_parent = find(word[3]-'a',parent);
-                if(x_parent != y_parent){
-                    Union(word[0]-'a',word[3]-'a',parent);
-                }
+                int x = word[0]-'a';
+                int y = word[3]-'a';
+                Union(word[0]-'a',word[3]-'a',parent);
             }
         }
         // now evalute the all enequlity sign
