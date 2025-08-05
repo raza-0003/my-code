@@ -1,40 +1,41 @@
 class Solution {
 public:
+    typedef pair<int,pair<int,int>>P;
     int dx[8] = {-1,-1,-1,0,0,1,1,1};
     int dy[8] = {-1,0,1,-1,1,-1,0,1};
     int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
         int n = grid.size();
         int m = grid[0].size();
-        if(n == 0 || m == 0 || grid[0][0] == 1){
+        if(grid[0][0] == 1){
             return -1;
         }
-        queue<pair<int,int>>q;
-        grid[0][0] = 1;
-        q.push({0,0});
-        int level = 0;
-        while(!q.empty()){
-            int N = q.size();
-            while(N!=0){
-                int x = q.front().first;
-                int y = q.front().second;
-                if(x == n-1 && y == m-1){
-                    return level + 1;
-                }
-                q.pop();
-                for(int i=0;i<8;i++){
-                    int nx = x + dx[i];
-                    int ny = y + dy[i];
-                    if(nx >= 0 && nx < n && ny >= 0 && ny < m && grid[nx][ny] == 0){
-                        q.push({nx,ny});
-                        grid[nx][ny] = 1;
-                    }
-                }
-                N--;
-            }
-            level++;
-            
+        if(n == 1 && m == 1){
+            return 1;
         }
-        return -1;
-        
+        vector<vector<int>>dist(n,vector<int>(m,INT_MAX));
+        priority_queue<P,vector<P>,greater<P>>pq;
+        grid[0][0] = 1;
+        pq.push({0,{0,0}});
+        while(!pq.empty()){
+            pair<int,int> node = pq.top().second;
+            int d = pq.top().first;
+            int x = node.first;
+            int y = node.second;
+            pq.pop();
+            for(int i=0;i<8;i++){
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+                if(nx >= 0 && nx < n && ny >= 0 && ny < m && grid[nx][ny] == 0 && d + 1 < dist[nx][ny]){
+                    grid[nx][ny] = 1;
+                    pq.push({d +1, {nx,ny}});
+                    dist[nx][ny] = d + 1;
+                }
+            }
+        }
+        if(dist[n-1][m-1] == INT_MAX){
+            return -1;
+        }        
+        return dist[n-1][m-1]+1;
+
     }
 };
