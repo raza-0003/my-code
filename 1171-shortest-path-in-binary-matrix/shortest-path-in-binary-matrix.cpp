@@ -13,12 +13,13 @@ public:
             return 1;
         }
         vector<vector<int>>dist(n,vector<int>(m,INT_MAX));
-        priority_queue<P,vector<P>,greater<P>>pq;
+        // since all the weight of the edges is 1 that why i able to use the queue
+        queue<P>pq;
         grid[0][0] = 1;
         pq.push({0,{0,0}});
         while(!pq.empty()){
-            pair<int,int> node = pq.top().second;
-            int d = pq.top().first;
+            pair<int,int> node = pq.front().second;
+            int d = pq.front().first;
             int x = node.first;
             int y = node.second;
             pq.pop();
