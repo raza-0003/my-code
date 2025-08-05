@@ -1,68 +1,40 @@
 class Solution {
 public:
+    int dx[8] = {-1,-1,-1,0,0,1,1,1};
+    int dy[8] = {-1,0,1,-1,1,-1,0,1};
     int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
         int n = grid.size();
-        
-        // Check if start or end is blocked
-        if (grid[0][0] == 1 || grid[n-1][n-1] == 1) 
+        int m = grid[0].size();
+        if(n == 0 || m == 0 || grid[0][0] == 1){
             return -1;
-        
-        // Boundary check and handling for 1x1 grid
-        if (n == 1 && grid[0][0] == 0) 
-            return 1;
-        
-        // Directions: 8 possible moves (horizontal, vertical, diagonal)
-        vector<pair<int,int>> directions = {
-            {-1,-1}, {-1,0}, {-1,1},
-            {0,-1},           {0,1},
-            {1,-1}, {1,0}, {1,1}
-        };
-        
-        // Queue for BFS
-        queue<pair<int,int>> q;
-        q.push({0,0});
-        
-        // Mark the start cell as visited
+        }
+        queue<pair<int,int>>q;
         grid[0][0] = 1;
-        
-        // Path length (starts at 1 to count the start cell)
-        int pathLength = 1;
-        
-        // BFS
-        while (!q.empty()) {
-            int size = q.size();
-            
-            // Process all cells at current path length
-            for (int i = 0; i < size; i++) {
-                auto [row, col] = q.front();
+        q.push({0,0});
+        int level = 0;
+        while(!q.empty()){
+            int N = q.size();
+            while(N!=0){
+                int x = q.front().first;
+                int y = q.front().second;
+                if(x == n-1 && y == m-1){
+                    return level + 1;
+                }
                 q.pop();
-                
-                // If reached destination
-                if (row == n-1 && col == n-1) 
-                    return pathLength;
-                
-                // Check all 8 neighboring cells
-                for (auto& [dx, dy] : directions) {
-                    int newRow = row + dx;
-                    int newCol = col + dy;
-                    
-                    // Validate new cell
-                    if (newRow >= 0 && newRow < n && 
-                        newCol >= 0 && newCol < n && 
-                        grid[newRow][newCol] == 0) {
-                        
-                        // Mark as visited and add to queue
-                        grid[newRow][newCol] = 1;
-                        q.push({newRow, newCol});
+                for(int i=0;i<8;i++){
+                    int nx = x + dx[i];
+                    int ny = y + dy[i];
+                    if(nx >= 0 && nx < n && ny >= 0 && ny < m && grid[nx][ny] == 0){
+                        q.push({nx,ny});
+                        grid[nx][ny] = 1;
                     }
                 }
+                N--;
             }
+            level++;
             
-            // Increment path length after processing all cells at current level
-            pathLength++;
         }
-        
-        // If destination not reachable
         return -1;
+        
     }
 };
