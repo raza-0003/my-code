@@ -25,6 +25,7 @@ public:
         int maxDist = 0;
         int farthestNode = srcNode;
         while(!q.empty()){
+            // curr level me itne nodes hai
             int n = q.size();
             // explore its neighbour
             for(int i=0;i<n;i++){
