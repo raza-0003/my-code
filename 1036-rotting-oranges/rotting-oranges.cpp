@@ -1,44 +1,46 @@
 class Solution {
 public:
+    int dx[4] = {-1,0,0,1};
+    int dy[4] = {0,-1,1,0};
     int orangesRotting(vector<vector<int>>& grid) {
-        int n =grid.size();
-        int m =grid[0].size();
-        //{{row,coloumn},time}
-        queue<pair<pair<int,int>,int>>q;
-        vector<vector<int>>vis(n,vector<int>(m,0));
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(grid[i][j]==2){
-                    q.push({{i,j},0});
-                    vis[i][j]=2;
+        int rows = grid.size();
+        int cols = grid[0].size();
+        queue<pair<int,int>>q;
+        int freshOranges = 0;
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<cols;j++){
+                if(grid[i][j] == 2){
+                    q.push({i,j});
+                }
+                else if(grid[i][j] == 1){
+                    freshOranges++;
                 }
             }
         }
-        int tm = 0;
-        int drow[]={-1,0,1,0};
-        int dcol[]={0,1,0,-1};
+        if(freshOranges == 0) return 0;
+        int minutes = 0;
         while(!q.empty()){
-            int r = q.front().first.first;
-            int c = q.front().first.second;
-            int t = q.front().second;
-            q.pop();
-            tm = max(tm,t);
-            for(int i=0;i<4;i++){
-                int nrow = drow[i] + r;
-                int ncol = dcol[i] + c;
-                if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && vis[nrow][ncol]==0 && grid[nrow][ncol]==1){
-                    q.push({{nrow,ncol},t+1});
-                    vis[nrow][ncol]=2;
+            int n = q.size();
+            // start multisources bfs we have to start
+            while(n--){
+                auto it = q.front();
+                q.pop();
+                int x = it.first;
+                int y = it.second;
+                for(int i=0;i<4;i++){
+                        int nx = x + dx[i];
+                        int ny = y + dy[i];
+                        if(nx >=0 && nx <rows && ny >=0 && ny < cols && grid[nx][ny] == 1){
+                            q.push({nx,ny});
+                            freshOranges--;
+                            grid[nx][ny] = 2;
+                        }
                 }
             }
+            minutes++;
         }
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(vis[i][j]!=2 && grid[i][j]==1){
-                    return -1;
-                }
-            }
-        }
-        return tm;
+        if(freshOranges == 0) return minutes-1;
+        // there is an fresh oranges present in the grid
+        return -1;
     }
 };
